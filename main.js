@@ -20,7 +20,7 @@ class Post {
       <div class="d-flex justify-content-space-between">
       <button id="commentButton" class="btn btn-sm d-block m-3" onclick="createCommentInput()">Add Comment</button>
       <button id="deletePost" class="btn btn-sm m-3 btn-danger " onclick="deletePost(${i})">Delete</button>
-      <button id="editPost" onclick="editPost()" class="btn btn-sm btn-info m-3">Edit post</button>
+      <button id="editPost" onclick="editPost(${i})" class="btn btn-sm btn-info m-3">Edit post</button>
       </div>
       <div id="comments">
       </div>
@@ -63,41 +63,42 @@ const createPost = () => {
     .map((post, i) => post.generateMarkup(i))
     .join("");
   //create closure to edit post
-  return (editPost = () => {
+  return (editPost = i => {
     //sets input values = to post's properties
-    postName.value = post.user;
-    postText.value = post.text;
+    postName.value = posts[i].user;
+    postText.value = posts[i].text;
     //grabs edit button on DOM & displays it
     const finishEdittingButton = document.querySelector("#finishEditting");
     finishEdittingButton.style.display = "inherit";
     //creates function to pass as callback to listener attached to editting button created above
-    const createEdittedPost = () => {
-      console.log(posts.indexOf(post));
+     const createEdittedPost = () => {
+       //CURRENT BUG: in an array of 2 posts, making an edit to one of them works fine but it offsets the value of position setting it equal to 0 rather than 1, if the second edit is intended for the 2nd of 2 posts
+      debugger;
+      const position = posts.indexOf(posts[i]);
       finishEdittingButton.style.display = "none";
-      posts = posts.filter((post, i) => i !== posts.indexOf(post));
-      console.log(posts.map(p => p.user));
-      // posts.splice(posts.indexOf(post), 1);
-      // post.user = postName.value;
-      // post.text = postText.value;
-      // posts = [...posts, post];
-      // (postName.value = ""), (postText.value = "");
-      // postSection.innerHTML = posts
-      //   .map((post, i) => post.generateMarkup(i))
-      //   .join("");
+      posts[i].user = postName.value;
+      posts[i].text = postText.value;
+      //case: post is the first in the posts array & there's more than 1 post
+      if (posts.length > 1 && position === 0) {
+        posts = [posts[i], ...posts.slice(1)];
+        //case: post is the 2nd of 2 total posts
+      } else if (position > 0 && posts.length === 2) {
+        posts = [...posts.slice(0, position), posts[i]];
+      } else {
+        //case: post isn't the first post in posts array & there's more than 2 posts
+        posts = [
+          ...posts.slice(0, position),
+          post,
+          ...posts.slice(position + 1)
+        ];
+      }
+      postSection.innerHTML = posts
+        .map((post, i) => post.generateMarkup(i))
+        .join("");
+      (postName.value = ""), (postText.value = "");
     };
 
     finishEdittingButton.addEventListener("click", createEdittedPost);
-
-    if (postName.value === post.user && postText.value === post.text) {
-      return post;
-    } else {
-      post.user = postName.value;
-      post.text = postText.value;
-    }
-    posts = [...posts, post];
-    return (postSection.innerHTML = posts
-      .map((post, i) => post.generateMarkup(i))
-      .join(""));
   });
 };
 
