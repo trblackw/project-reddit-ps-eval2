@@ -1,0 +1,62 @@
+div#main-container {
+  margin: 0 auto;
+  padding: 1.5em;
+  background: hsl(202, 34%, 32%);
+}
+
+div.container {
+  margin: 1em;
+  padding: 1em;
+}
+
+div#posts {
+  height: 400px;
+  overflow-y: scroll;
+  background: hsl(195, 53%, 79%);
+  margin-left: 0;
+}
+
+button#submitButton {
+  background: hsl(195, 53%, 79%);
+}
+
+button#commentButton {
+  background: hsl(202, 34%, 32%);
+  color: whitesmoke;
+}
+
+div#comment {
+  background: #eee;
+  color: black;
+  text-indent: 1.5em;
+}
+
+div#comments {
+  overflow-y: scroll;
+  max-height: 200px;
+}
+
+div#new-comment {
+  margin: 1.5em;
+  padding: 1em;
+  border: 2px solid hsl(202, 34%, 32%);
+  background: whitesmoke;
+  border-radius: 10px;
+}
+
+button#deleteComment,
+button#deletePost {
+  display: inherit;
+  font-weight: bold;
+  border: none;
+}
+
+button#deleteComment:hover,
+button#deletePost:hover {
+  cursor: pointer;
+}
+
+button#finishEditting {
+  display: none;
+  float: right;
+}
