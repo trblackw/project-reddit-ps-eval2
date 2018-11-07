@@ -1,4 +1,4 @@
-const createPost = require("./main");
-console.log(createPost)
+// import { createPost } from "./main";
+// console.log(createPost);
 
-// const createPost = () => {};
+// // const createPost = () => {};
