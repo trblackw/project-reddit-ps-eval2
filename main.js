@@ -18,9 +18,10 @@ class Post {
       <p class="lead">${this.text}</p>
       <small>Post by: <strong>${this.user}</strong></small>
       <div class="d-flex justify-content-space-between">
-      <button id="commentButton" class="btn btn-sm d-block m-3" onclick="createCommentInput()">Add Comment</button>
-      <button id="deletePost" class="btn btn-sm m-3 btn-danger " onclick="deletePost(${i})">Delete</button>
-      <button id="editPost" onclick="editPost(${i})" class="btn btn-sm btn-info m-3">Edit post</button>
+      <button id="commentButton" class="btn btn-sm d-block m-3" onclick="createCommentInput()"><i class="fa fa-comment"></i></button>
+      <button id="deletePost" class="btn btn-sm m-3 btn-danger " onclick="deletePost(${i})"><i class="fa fa-trash"></i>
+      </button>
+      <button id="editPost" onclick="editPost(${i})" class="btn btn-sm btn-info m-3"><i class="fa fa-edit"></i></button>
       </div>
       <div id="comments">
       </div>
@@ -71,8 +72,8 @@ const createPost = () => {
     const finishEdittingButton = document.querySelector("#finishEditting");
     finishEdittingButton.style.display = "inherit";
     //creates function to pass as callback to listener attached to editting button created above
-     const createEdittedPost = () => {
-       //CURRENT BUG: in an array of 2 posts, making an edit to one of them works fine but it offsets the value of position setting it equal to 0 rather than 1, if the second edit is intended for the 2nd of 2 posts
+    const createEdittedPost = () => {
+      //CURRENT BUG: in an array of 2 posts, making an edit to one of them works fine but it offsets the value of position setting it equal to 0 rather than 1, if the second edit is intended for the 2nd of 2 posts
       debugger;
       const position = posts.indexOf(posts[i]);
       finishEdittingButton.style.display = "none";
@@ -106,8 +107,8 @@ const createPost = () => {
 const createCommentInput = () => {
   const commentBox = document.createElement("div");
   commentBox.setAttribute("id", "commentBox");
-  commentBox.innerHTML = `<input id="commentText" type="text" class="form-control w-25 mb-2" placeholder="Comment text">
-  <input id="commentName" type="text" class="form-control w-25 mb-2" placeholder="Your name">
+  commentBox.innerHTML = `<input id="commentText" type="text" class="form-control w-50 mb-2" placeholder="Comment text">
+  <input id="commentName" type="text" class="form-control w-50 mb-2" placeholder="Your name">
   <button class="btn btn-info btn-sm" id="commentSubmit">Comment</button>
    `;
   const commentSection = document.querySelector("div#comments");
@@ -138,7 +139,7 @@ const deletePost = i => {
 
   if (currentPosts.length === 1) {
     posts = [];
-    return (postSection.innerHTML = "");
+    return postSection.removeChild(post);
   } else {
     posts = posts.filter((post, index) => index !== i);
     return postSection.removeChild(post);
@@ -148,15 +149,20 @@ const deletePost = i => {
 //deletes comment by removing it from the DOM (via the comment section)
 const deleteComment = i => {
   const commentSection = document.querySelector("div#comments");
-  const comment = commentSection.querySelector("#new-comment");
-  if (comments.length === 1) {
-    commentSection.removeChild(comment);
+  const currentComments = [
+    ...commentSection.querySelectorAll("div#new-comment")
+  ];
+  const comment = currentComments[i];
+
+  if (currentComments.length === 1) {
     comments = [];
+    return commentSection.removeChild(comment);
+  } else {
+    comments = comments.filter((comment, index) => {
+      index !== i;
+    });
+    return commentSection.removeChild(comment);
   }
-  return (commentSection.innerHTML = comments
-    .filter((comment, index) => index !== i)
-    .map((comment, i) => comment.generateMarkup(i))
-    .join(""));
 };
 
 submitButton.addEventListener("click", createPost);

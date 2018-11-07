@@ -2,11 +2,13 @@ div#main-container {
   margin: 0 auto;
   padding: 1.5em;
   background: hsl(202, 34%, 32%);
+  justify-content: center;
 }
 
 div.container {
-  margin: 1em;
+  margin: 1em auto;
   padding: 1em;
+  border-radius: 5px;
 }
 
 div#posts {
@@ -59,4 +61,24 @@ button#deletePost:hover {
 button#finishEditting {
   display: none;
   float: right;
+}
+span#votes {
+  float: right;
+}
+
+i.fa {
+  font-size: 1.5em;
+}
+
+.shadow {
+  position: relative;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.drop-shadow {
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
 }
